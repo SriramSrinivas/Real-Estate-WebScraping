@@ -12,3 +12,7 @@ python manage.py createsuperuser
 ## Getting Started
 To run Omaha-Real-Estate-WebScrapping simply,
 docker-compose up
+
+# License
+MIT License
+Copyright (c) 2018 Sriram Srinivasan
