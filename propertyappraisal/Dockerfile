@@ -1,9 +1,4 @@
-###################################
-#
-# CYBR8470 Dev Docker Container
-# @author Matt Hale
-#
-###################################
+
 
 # Pull base image.
 FROM python:3.7
