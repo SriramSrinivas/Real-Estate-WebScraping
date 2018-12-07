@@ -18,4 +18,12 @@ RUN pip install requests
 RUN pip install gunicorn==19.6.0
 RUN pip install elasticsearch
 # RUN pip install urllib
-RUN pip install bs4
+# RUN pip install bs4
+# FROM python:3
+# ADD WebScraping.py /
+# # RUN pip install urllib
+# RUN pip install requests
+# RUN pip install lxml
+# RUN pip install bs4
+# RUN pip install urllib3
+# CMD [ "python", "./WebScraping.py" ]

@@ -27,6 +27,13 @@ services:
       - 9200:9200
     networks:
       - esnet
+  webscraping:
+    build: Scraping/.
+    command: bash -c "python /var/www/WebScraping.py" 
+    volumes:
+      - ../propertyappraisal/Scraping/:/var/www/
+    depends_on: 
+      - elasticsearch 
 
   django:
     build: .
