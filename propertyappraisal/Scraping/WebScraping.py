@@ -10,6 +10,7 @@ from elasticsearch import Elasticsearch
 urls=[]
 priceList=[]
 AddressList=[]
+propertyDictionary={}
 total=0
 es = Elasticsearch()
 # es.indices.create(index='my-index1',ignore=400)
@@ -35,15 +36,19 @@ while True:
             z=y.split("$")
             m=z[1].split("</dd>")
             
-            priceList.append(m[0])
+            priceList.append("Price:"+m[0])
         for x in soup.findAll("span",{"itemprop":"streetAddress"}):
             y=str(x)
             z=y.split("streetAddress")
             m=z[1].split(">")
             k=m[1].split("</span")
             print(k[0])
-            # AddressList.append(x)
-
-    # for x in priceList:
+            AddressList.append("Address:"+k[0])
+    i=0
+    for x,y in zip(priceList,AddressList):
+        propertyDictionary[i]=x,y
+       
+        i=i+1
+    print(propertyDictionary)
     print('done')
     time.sleep(500)
