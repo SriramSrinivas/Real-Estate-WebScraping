@@ -14,5 +14,6 @@ ADD WebScraping.py /
 RUN pip install requests
 RUN pip install lxml
 RUN pip install bs4
-RUN pip install urllib3
+# RUN pip install urllib3
+RUN pip install elasticsearch
 # CMD [ "python", "./WebScraping.py" ]

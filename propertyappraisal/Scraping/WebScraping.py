@@ -1,32 +1,49 @@
-
-import urllib3
+import urllib.request
 from bs4 import BeautifulSoup
 import requests
 import time
+from datetime import datetime
+from elasticsearch import Elasticsearch
 # Fetch the html file
 
 
-urls=['https://www.amazon.com/dp/B06XCM9LJ4/ref=fs_ods_aucc_rd','https://www.amazon.com/dp/B0792KTHKJ/ref=ods_gw_d_cmdw_dnut_aucc_1127?pf_rd_p=984825d7-7af6-44a5-953c-1d5e3c0af1f5&pf_rd_r=N7S1PKSXRX94TFDMR7XH']
-
+urls=[]
+priceList=[]
+AddressList=[]
 total=0
+es = Elasticsearch()
+# es.indices.create(index='my-index1',ignore=400)
+urls=['https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/?sortbyfield=proximity,asc&itemsper=50']
 while True:
+    # es.index(index="my-index", doc_type="test-type", id=42, body={"any": "data", "timestamp": datetime.now()})
     for x in urls:
-    # http = urllib3.PoolManager()
         response = requests.get(x)
-    
-        html_doc = response.text
+        # print(response.content)
+        
+        # print(response.read())
+        html_doc = response.content
 
-# Parse the html file
+# # Parse the html file
         soup = BeautifulSoup(html_doc, "html.parser")
-        print(soup)
-# Format the parsed html file
-        strhtm = soup.prettify()
-        test=soup.findAll('span')
-        print(test)
-        # for x in soup.find_all(id='priceblock_dealprice'): 
-        #     print(x)
-        #     y=x.split("$")
-        #     total=total+float(y[1])
 
-    print(total)
-    time.sleep(10)
+# # Format the parsed html file
+        strhtm =soup.prettify("utf-8")
+        # with open("test.html","w") as file:
+        #      file.write(str(strhtm))
+        for x in soup.findAll("dd",{"class":"price"}):
+            y=str(x)
+            z=y.split("$")
+            m=z[1].split("</dd>")
+            
+            priceList.append(m[0])
+        for x in soup.findAll("span",{"itemprop":"streetAddress"}):
+            y=str(x)
+            z=y.split("streetAddress")
+            m=z[1].split(">")
+            k=m[1].split("</span")
+            print(k[0])
+            # AddressList.append(x)
+
+    # for x in priceList:
+    print('done')
+    time.sleep(500)

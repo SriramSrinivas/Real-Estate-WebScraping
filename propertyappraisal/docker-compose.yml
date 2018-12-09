@@ -17,6 +17,7 @@ services:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_HOST=http://localhost:9200
     ulimits:
       memlock:
         soft: -1
@@ -32,9 +33,26 @@ services:
     command: bash -c "python /var/www/WebScraping.py" 
     volumes:
       - ../propertyappraisal/Scraping/:/var/www/
-    depends_on: 
-      - elasticsearch 
-
+    # depends_on: 
+    #   - elasticsearch 
+    environment: 
+      - ALLOWED_HOSTS=localhost:9200
+      - DEBUG=True
+      - ES_USE_SSL=False
+      - ES_HOST=elasticsearch  
+  kibana:
+    build:
+      context: kibana/
+      # args:
+      #   ELK_VERSION: $ELK_VERSION
+    volumes:
+      -  ../propertyappraisal/:/var/www/
+    ports:
+      - "5601:5601"
+    networks:
+      - esnet
+    depends_on:
+      - elasticsearch
   django:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py makemigrations appraisal && python manage.py migrate && python manage.py migrate appraisal && python /var/www/propertyappraisal/manage.py runserver 0.0.0.0:8000"
