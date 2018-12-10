@@ -43,8 +43,7 @@ services:
   kibana:
     build:
       context: kibana/
-      # args:
-      #   ELK_VERSION: $ELK_VERSION
+      
     volumes:
       -  ../propertyappraisal/:/var/www/
     ports:
