@@ -5,4 +5,5 @@ class Customer(models.Model):
     customerName=models.CharField(max_length=1000,blank=False)
     customerEmail=models.EmailField(max_length=100,blank=False)
     customerPhone=models.CharField(max_length=100,blank=False)
-    
+    def str (self):
+        return str(self.name)

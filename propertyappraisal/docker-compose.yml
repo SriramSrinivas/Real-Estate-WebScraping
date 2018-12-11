@@ -33,8 +33,8 @@ services:
     command: bash -c "python /var/www/WebScraping.py" 
     volumes:
       - ../propertyappraisal/Scraping/:/var/www/
-    # depends_on: 
-    #   - elasticsearch 
+    depends_on: 
+      - elasticsearch 
     environment: 
       - ALLOWED_HOSTS=localhost:9200
       - DEBUG=True
@@ -43,7 +43,8 @@ services:
   kibana:
     build:
       context: kibana/
-      
+      # args:
+      #   ELK_VERSION: $ELK_VERSION
     volumes:
       -  ../propertyappraisal/:/var/www/
     ports:

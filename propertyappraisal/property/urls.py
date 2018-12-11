@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url,include
 from appraisal import controllers
+from appraisal import views
+# from django.core.urlresolvers import NoReverseMatch
 # from api import urls 
 urlpatterns = [
     url('admin/', admin.site.urls),
+    url(r'^customer/$',views.customerList.as_view()),
     # url(r'^customers/$',controllers.test),
 ]

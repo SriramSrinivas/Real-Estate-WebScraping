@@ -4,6 +4,7 @@ import requests
 import time
 from datetime import datetime
 from elasticsearch import Elasticsearch
+from elasticsearch import helpers
 # Fetch the html file
 
 
@@ -76,14 +77,22 @@ while True:
             # print(k[0])
             AddressList.append(k[0])
             
-     
+    actions=[] 
     for x,y in zip(priceList,AddressList):
-        this={"price":x,
-              "Address":y}
-        print(this)
-        es.index(index="my-index1", doc_type="test-type", id=id, body=this)
+        this={
+            
+            "_index":"my-index",
+                "_id":id,
+                "_type":"test-type",
+            "price":x,
+              "Address":y,
+               
+           }
+        actions.append(this)
+        # es.index(index="my-index1", doc_type="test-type", id=id, body=this)
         # propertyDictionary[i]=x,y
         id=id+1
+        helpers.bulk(es,actions)
     # print(propertyDictionary)
     id=1
     # es.index(index="my-index1", doc_type="test-type", id=id, body=propertyDictionary)
