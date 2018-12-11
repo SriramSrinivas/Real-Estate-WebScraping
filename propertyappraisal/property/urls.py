@@ -22,5 +22,6 @@ from appraisal import views
 urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^customer/$',views.customerList.as_view()),
+    url(r'^property/$',views.propertyList.as_view()),
     # url(r'^customers/$',controllers.test),
 ]

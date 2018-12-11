@@ -16,4 +16,7 @@ RUN pip install lxml
 RUN pip install bs4
 # RUN pip install urllib3
 RUN pip install elasticsearch
-# CMD [ "python", "./WebScraping.py" ]
+RUN pip install psycopg2
+RUN pip install psycopg2-binary
+RUN pip install elasticsearch-dsl
+# CMD [ "python", "WebScraping.py" ]

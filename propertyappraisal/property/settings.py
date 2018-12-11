@@ -25,8 +25,33 @@ SECRET_KEY = 'cs51k)=c)gc*o_*3lvp!40)65@!l@e9alp7t#_lh%kts^8rv7_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','137.48.184.208','faf6e2e303ad']
+ALLOWED_HOSTS = ['localhost','137.48.184.208','faf6e2e303ad','http://localhost:9200','127.0.0.1']
 
+if os.path.isfile('/run/secrets/elastic_cloud_auth'):
+    with open('/run/secrets/elastic_cloud_auth', 'r') as f:
+        ES_AUTH = f.read().strip()
+else:
+    ES_AUTH = ""
+
+ES_HOST = os.environ.get('ES_HOST', 'localhost')
+
+ES_INDEX = os.environ.get('ES_INDEX', 'stack')
+ES_INDEX_SETTINGS = {
+    'number_of_shards': 1,
+    'number_of_replicas': 0,
+}
+
+ES_CONNECTIONS = {
+    'default': {
+        'hosts': [{
+            'host': ES_HOST,
+            'http_auth': ES_AUTH,
+            'verify_certs': False,
+            'use_ssl': os.environ.get('ES_USE_SSL', False) == 'True',
+            'port': os.environ.get('ES_PORT', '9200'),
+        }]
+    }
+}
 
 # Application definition
 
@@ -38,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appraisal',
+    # 'Scraping',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +76,38 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 10,
+    'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework_json_api.pagination.JsonApiPageNumberPagination',
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework_json_api.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework_json_api.renderers.JSONRenderer',
+        # If you're performance testing, you will want to use the browseable API
+        # without forms, as the forms can generate their own queries.
+        # If performance testing, enable:
+        # 'example.utils.BrowsableAPIRendererWithoutForms',
+        # Otherwise, to play around with the browseable API, enable:
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ),
+    'DEFAULT_METADATA_CLASS': 'rest_framework_json_api.metadata.JSONAPIMetadata',
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework_json_api.filters.QueryParameterValidationFilter',
+        'rest_framework_json_api.filters.OrderingFilter',
+        'rest_framework_json_api.django_filters.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ),
+    'SEARCH_PARAM': 'filter[search]',
+    'TEST_REQUEST_RENDERER_CLASSES': (
+        'rest_framework_json_api.renderers.JSONRenderer',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'vnd.api+json'
+}
 ROOT_URLCONF = 'property.urls'
 
 TEMPLATES = [

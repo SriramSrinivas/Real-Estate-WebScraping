@@ -17,6 +17,10 @@ RUN pip install psycopg2-binary
 RUN pip install requests
 RUN pip install gunicorn==19.6.0
 RUN pip install elasticsearch
+RUN pip install jsonapi
+RUN pip install djangorestframework-jsonapi
+RUN pip install elasticsearch-dsl
+
 # RUN pip install urllib
 # RUN pip install bs4
 # FROM python:3

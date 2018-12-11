@@ -12,12 +12,12 @@ services:
       - ../database-backup:/database-backup
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
-    container_name: elasticsearch4
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - ES_HOST=http://localhost:9200
+    container_name: elasticsearch
+    # environment:
+    #   - cluster.name=docker-cluster
+    #   - bootstrap.memory_lock=true
+    #   - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    #   # - ES_HOST=http://localhost:9200
     ulimits:
       memlock:
         soft: -1
@@ -26,20 +26,27 @@ services:
       - esdata1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+      - 9300:9300
     networks:
       - esnet
   webscraping:
+    restart: always
     build: Scraping/.
     command: bash -c "python /var/www/WebScraping.py" 
     volumes:
       - ../propertyappraisal/Scraping/:/var/www/
+    networks:
+      - esnet
     depends_on: 
+      - db
       - elasticsearch 
     environment: 
-      - ALLOWED_HOSTS=localhost:9200
+      - DB_HOST=db
+      - ES_HOST=http://elasticsearch:9200
+      - ALLOWED_HOSTS=localhost:9200,http://elasticsearch:9200
       - DEBUG=True
       - ES_USE_SSL=False
-      - ES_HOST=elasticsearch  
+      # - ES_HOST=elasticsearch  
   kibana:
     build:
       context: kibana/
@@ -63,6 +70,12 @@ services:
     depends_on:
      - db
      - elasticsearch
+    environment: 
+      - DB_HOST=db
+      - ES_HOST=http://elasticsearch:9200
+      - ALLOWED_HOSTS=localhost:9200,http://elasticsearch:9200
+      - DEBUG=True
+      - ES_USE_SSL=False
 volumes:
   esdata1:
     driver: local

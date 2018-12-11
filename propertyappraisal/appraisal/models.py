@@ -7,3 +7,6 @@ class Customer(models.Model):
     customerPhone=models.CharField(max_length=100,blank=False)
     def str (self):
         return str(self.name)
+class Property(models.Model):
+    price=models.IntegerField()
+    Address=models.CharField(max_length=1000)
