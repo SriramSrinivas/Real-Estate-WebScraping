@@ -25,12 +25,23 @@ class customerList(APIView):
         serializer=customerSerializers(snippets,many=True)
         return Response(serializer.data)
 class propertyList(APIView):
-    
+    renderer_classes = (JSONRenderer, )
     def get(self,request,format=None):
        
         # time.sleep(12)
         # connections.create_connection()
         es = Elasticsearch(['elasticsearch:9200'])
-        res = es.search(index="my-index", body={"query": {"match_all": {}}})
-        for x in res:
-            print(x) 
+        doc = {
+        'size' : 10000,
+        'query': {
+            'match_all' : {}
+            }
+        }
+        res = es.search(index='my-index1', doc_type='test-type', body=doc,scroll='1m')
+
+        scroll = res['_scroll_id']
+        print(scroll)
+         
+        snippets=Customer.objects.all()
+        serializer=customerSerializers(snippets,many=True)
+        return Response(serializer.data)

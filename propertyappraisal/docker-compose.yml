@@ -10,6 +10,8 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - postgres-logs:/var/log/postgresql
       - ../database-backup:/database-backup
+    networks:
+      - esnet
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
     container_name: elasticsearch
@@ -42,8 +44,8 @@ services:
       - elasticsearch 
     environment: 
       - DB_HOST=db
-      - ES_HOST=http://elasticsearch:9200
-      - ALLOWED_HOSTS=localhost:9200,http://elasticsearch:9200
+      - ES_HOST=elasticsearch
+      - ALLOWED_HOSTS=localhost,127.0.0.1
       - DEBUG=True
       - ES_USE_SSL=False
       # - ES_HOST=elasticsearch  
@@ -61,19 +63,22 @@ services:
     depends_on:
       - elasticsearch
   django:
+    restart: always
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py makemigrations appraisal && python manage.py migrate && python manage.py migrate appraisal && python /var/www/propertyappraisal/manage.py runserver 0.0.0.0:8000"
     volumes:
       - ../propertyappraisal:/var/www/propertyappraisal
     ports:
      - "8000:8000"
+    networks:
+      - esnet
     depends_on:
      - db
      - elasticsearch
     environment: 
       - DB_HOST=db
-      - ES_HOST=http://elasticsearch:9200
-      - ALLOWED_HOSTS=localhost:9200,http://elasticsearch:9200
+      - ES_HOST=elasticsearch
+      - ALLOWED_HOSTS=localhost,127.0.0.1
       - DEBUG=True
       - ES_USE_SSL=False
 volumes:

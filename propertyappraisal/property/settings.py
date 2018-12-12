@@ -35,11 +35,11 @@ else:
 
 ES_HOST = os.environ.get('ES_HOST', 'localhost')
 
-ES_INDEX = os.environ.get('ES_INDEX', 'stack')
-ES_INDEX_SETTINGS = {
-    'number_of_shards': 1,
-    'number_of_replicas': 0,
-}
+# ES_INDEX = os.environ.get('ES_INDEX', 'stack')
+# ES_INDEX_SETTINGS = {
+#     'number_of_shards': 1,
+#     'number_of_replicas': 0,
+# }
 
 ES_CONNECTIONS = {
     'default': {

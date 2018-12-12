@@ -6,10 +6,10 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 # Fetch the html file
-import psycopg2
+# import psycopg2
 
-from elasticsearch_dsl import Search
-from elasticsearch_dsl.connections import connections
+# from elasticsearch_dsl import Search
+# from elasticsearch_dsl.connections import connections
 
 urls=[]
 priceList=[]
@@ -24,7 +24,11 @@ id=1
 # index.create()
 # connections.create_connection(hosts=['http://localhost:9200'], timeout=20)
 es = Elasticsearch(['elasticsearch:9200'])
-es.indices.create(index='my-index222')
+# ['elasticsearch:9200']
+# es.indices.create(index='my-index222')
+res = es.search(index="my-index1", body={"query": {"match_all": {}}})
+for x in res:
+    print(x) 
 urls=['https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/?sortbyfield=proximity,asc&itemsper=50','https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-2/?sortbyfield=featured,desc&itemsper=50',
 # 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-3/?sortbyfield=featured,desc&itemsper=50',
 # 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-4/?sortbyfield=featured,desc&itemsper=50',
