@@ -8,5 +8,5 @@ class Customer(models.Model):
     def str (self):
         return str(self.name)
 class Property(models.Model):
-    price=models.IntegerField()
+    price=models.CharField(max_length=1000)
     Address=models.CharField(max_length=1000)

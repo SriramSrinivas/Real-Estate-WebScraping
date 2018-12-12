@@ -14,3 +14,7 @@ class customerSerializers(serializers.Serializer):
         instance.customerEmail=validated_data.get('CustomerEmail',instance.customerEmail)
         instance.customerPhone=validated_data.get('CustomerPhone',instance.customerPhone)
 
+class propertySerializers(serializers.Serializer):
+    id=serializers.IntegerField(read_only=True)
+    price=serializers.CharField()
+    Address= serializers.CharField()

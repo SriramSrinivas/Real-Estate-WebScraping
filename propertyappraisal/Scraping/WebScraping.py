@@ -25,37 +25,42 @@ id=1
 # connections.create_connection(hosts=['http://localhost:9200'], timeout=20)
 es = Elasticsearch(['elasticsearch:9200'])
 # ['elasticsearch:9200']
-# es.indices.create(index='my-index222')
-res = es.search(index="my-index1", body={"query": {"match_all": {}}})
+try:
+    es.indices.create(index='my-index222')
+except:
+    print("Index already Exists")
+finally:
+     pass   
+res = es.search(index="my-index222", body={"query": {"match_all": {}}})
 for x in res:
     print(x) 
 urls=['https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/?sortbyfield=proximity,asc&itemsper=50','https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-2/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-3/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-4/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-5/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-6/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-7/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-8/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-9/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-10/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-11/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-12/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-13/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-14/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-15/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-16/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-17/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-18/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-19/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-20/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-21/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-22/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-23/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-24/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-25/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-26/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-27/?sortbyfield=featured,desc&itemsper=50',
-# 'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-28/?sortbyfield=featured,desc&itemsper=50'
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-3/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-4/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-5/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-6/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-7/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-8/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-9/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-10/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-11/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-12/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-13/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-14/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-15/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-16/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-17/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-18/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-19/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-20/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-21/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-22/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-23/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-24/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-25/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-26/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-27/?sortbyfield=featured,desc&itemsper=50',
+'https://www.realtytrac.com/mapsearch/sold/ne/sarpy-county/p-28/?sortbyfield=featured,desc&itemsper=50'
 
 
 ]
@@ -100,7 +105,7 @@ def newmethod390():
         for x,y in zip(priceList,AddressList):
             this={
 
-                "_index":"my-index",
+                "_index":"my-index222",
                     "_id":id,
                     "_type":"test-type",
                 "price":x,
@@ -113,14 +118,16 @@ def newmethod390():
                   "Address":y,
 
                }
-            # actions.append(this)
+            actions.append(this)
+            print(this)
             # statement = 'INSERT INTO ' + appraisal_property + ' (' + 'price' + ') VALUES (' +x + ')'
             # mark.execute(statement) 
         #    connection.commit () 
-            es.index(index="my-index1", doc_type="test-type", id=id, body=this1)
+            # es.index(index="my-index1", doc_type="test-type", id=id, body=this1)
             # propertyDictionary[i]=x,y
             id=id+1
-        # helpers.bulk(es,actions)
+        helpers.bulk(es,actions)
+        print('done Complete')
             # connection.commit() 
         # print(propertyDictionary)
         id=1
