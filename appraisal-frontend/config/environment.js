@@ -4,7 +4,7 @@ module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'appraisal-frontend',
     environment,
-    rootURL: '/',
+    rootURL: '/static/ember',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

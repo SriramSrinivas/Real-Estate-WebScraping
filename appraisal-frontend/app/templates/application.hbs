@@ -1,65 +1,44 @@
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-    body {
-        font-family: "Lato", sans-serif;
-    }
+<div class="container-fluid" id="app-main">
+	<div class="row row-offcanvas row-offcanvas-left {{showMenu}}">
+		<!--   *** SIDEBAR ***-->
+		<div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+			<div class="sidebar-content">
+				{{#link-to 'index'}}
+				    <p class="sidebar-p"><img src="{{constants.rootURL}}img/NGC-logo.png" width="100%" class="img-rounded"/></p>
+        {{/link-to}}
+        <h4>Dashboard Demo App</h4>
+				<!-- <p class="sidebar-p"></p> -->
 
-    .sidenav {
-        height: 100%;
-        width: 160px;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #111;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
+				<ul class="sidebar-menu">
 
-    .sidenav a {
-        padding: 6px 8px 6px 16px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-    }
+					{{#if auth.isLoggedIn}}
+						Logged in as: {{auth.username}} (<a {{action "logout"}}>Logout</a>)
+					{{else}}
+						{{#active-link}}{{#link-to 'login'}}Login{{/link-to}}{{/active-link}}
+					{{/if}}
+					{{#active-link}}{{#link-to 'index'}}Home{{/link-to}}{{/active-link}}
+				</ul>
+				
 
-    .sidenav a:hover {
-        color: #f1f1f1;
-    }
 
-    .main {
-        margin-left: 160px;
-        /* Same as the width of the sidenav */
-        font-size: 28px;
-        /* Increased text to enable scrolling */
-        padding: 0px 10px;
-    }
+				</div>
+			</div>
+			{{#if auth.isLoggedIn}}
+	      <div class="col-xs-12">
 
-    @media screen and (max-height: 450px) {
-        .sidenav {
-            padding-top: 15px;
-        }
+	        <div class="btn btn-block btn-lg btn-success" {{action 'activateIFTTT'}}><span class="glyphicon glyphicon-play"></span> Turn IFTTT On</div>
+	      </div>
+			{{/if}}
+		</div>
+		<!--   *** SIDEBAR END ***  -->
+		<div class="col-xs-12 col-sm-8 col-md-9 content-column">
+			<div class="small-navbar visible-xs">
+				<button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left" {{action 'toggleMenu'}}> <i class="fa fa-align-left"> </i>Menu</button>
+				<h1 class="small-navbar-heading">{{#link-to 'index'}}CYBR8470 Demo APP{{/link-to}}</h1>
+			</div>
+			{{liquid-outlet "main"}}
+		</div>
+	</div>
 
-        .sidenav a {
-            font-size: 18px;
-        }
-    }
-</style>
-</head>
+</div>
 
-<body>
-
-    <div class="sidenav">
-        <a href="#about">About</a>
-       {{#link-to 'login'}}Login {{/link-to}}
-        {{!-- <a href="#clients">Clients</a>
-        <a href="#contact">Contact</a> --}}
-    </div>
-
-    <div class="main">
-        <p> This website aims to allow property appraiser to view recent property sales in Sarpy County.</p>
-        <p> If you are a property appraiser, please login to continue</p>
-    </div>
-    </body>

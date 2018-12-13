@@ -17,11 +17,20 @@ from django.contrib import admin
 from django.conf.urls import url,include
 from appraisal import controllers
 from appraisal import views
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import views as auth_views
 # from django.core.urlresolvers import NoReverseMatch
 # from api import urls 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'^customer/$',views.customerList.as_view()),
-    url(r'^property/$',views.propertyList.as_view()),
+    url(r'^customerlist/$',csrf_exempt(views.customerList.as_view())),
+    url(r'^propertylist/$',csrf_exempt(views.propertyList.as_view())),
+    url(r'^customer/$',csrf_exempt(views.customerListSecured)),
+    # url(r'^property/$',csrf_exempt(views.propertyListSecured)),
+
+    url(r'^session/$', csrf_exempt(views.Session.as_view())),
+    url(r'^home/$', views.home),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     # url(r'^customers/$',controllers.test),
 ]

@@ -21,6 +21,7 @@ RUN pip install jsonapi
 RUN pip install djangorestframework-jsonapi
 RUN pip install elasticsearch-dsl
 
+
 # RUN pip install urllib
 # RUN pip install bs4
 # FROM python:3

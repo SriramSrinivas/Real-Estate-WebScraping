@@ -12,7 +12,38 @@ from rest_framework.renderers import JSONRenderer
 from elasticsearch import Elasticsearch
 import time
 from elasticsearch_dsl.connections import connections
+from rest_framework import viewsets, filters, parsers, renderers
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.permissions import *
+from rest_framework.decorators import *
+from rest_framework.authentication import *
+
+from django.contrib.auth.models import *
+from django.contrib.auth import *
+from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+#from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, filters, parsers, renderers
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from django.contrib.auth import authenticate, login, logout
+from rest_framework.permissions import *
+from rest_framework.decorators import *
+from rest_framework.authentication import *
+import requests
 
 # from Scraping import WebScraping
 # api = API()
@@ -20,6 +51,13 @@ from elasticsearch_dsl.connections import connections
 # from django.urls import NoReverseMatch
 # Create your views here.
 # @api.register
+def home(request):
+ 
+   return render(request, 'templates/base.html')
+def customerListSecured(request):
+    snippets=Customer.objects.all()
+    return render(request,'templates/customer.html',{'snippets':snippets})
+
 class customerList(APIView):
     renderer_classes = (JSONRenderer, )
     def get(self, request,format=None):
@@ -45,3 +83,38 @@ class propertyList(APIView):
             id=id+1
         serializer=propertySerializers(jsonResponse,many=True)
         return Response(serializer.data)
+class Session(APIView):
+    permission_classes = (AllowAny,)
+    def form_response(self, isauthenticated, userid, username, error=""):
+        data = {
+            'isauthenticated': isauthenticated,
+            'userid': userid,
+            'username': username
+        }
+        if error:
+            data['message'] = error
+
+        return Response(data)
+
+    def get(self, request, *args, **kwargs):
+        # Get the current user
+        if request.user.is_authenticated():
+            return self.form_response(True, request.user.id, request.user.username)
+        return self.form_response(False, None, None)
+
+    def post(self, request, *args, **kwargs):
+        # Login
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return self.form_response(True, user.id, user.username)
+            return self.form_response(False, None, None, "Account is suspended")
+        return self.form_response(False, None, None, "Invalid username or password")
+
+    def delete(self, request, *args, **kwargs):
+        # Logout
+        logout(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)

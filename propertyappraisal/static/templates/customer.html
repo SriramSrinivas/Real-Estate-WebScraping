@@ -1,0 +1,32 @@
+
+{% extends 'templates/base.html' %}
+
+{% block content %}
+
+<table id="example" class="table table-striped table-bordered">
+<thead>
+    <tr>
+        <th class="th-sm">Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    {% for question in snippets %}
+    <td>{{ question.customerName }}</td>
+    <td>{{ question.customerPhone }}</td>
+    <td>{{ question.customerEmail }}</td>
+    {% endfor %}
+
+</tr>
+</tbody>
+
+</table>
+{%endblock%}
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
