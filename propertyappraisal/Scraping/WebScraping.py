@@ -141,6 +141,6 @@ def newmethod390():
         #     es.index(index="my-index1", doc_type="test-type", id=id, body=this)
         #     id=id+1
         print('donegggg')
-        time.sleep(200)
+        time.sleep(8000)
 
 newmethod390()
