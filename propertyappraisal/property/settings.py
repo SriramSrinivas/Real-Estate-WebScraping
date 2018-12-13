@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appraisal',
+    'table',
    
 ]
 
@@ -170,6 +171,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, "static/templates", 'template').replace('\\','/'),
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

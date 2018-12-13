@@ -20,7 +20,7 @@ RUN pip install elasticsearch
 RUN pip install jsonapi
 RUN pip install djangorestframework-jsonapi
 RUN pip install elasticsearch-dsl
-
+RUN pip install django-datatable
 
 # RUN pip install urllib
 # RUN pip install bs4

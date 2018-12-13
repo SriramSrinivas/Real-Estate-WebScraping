@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import url,include
+
 from appraisal import controllers
 from appraisal import views
 from django.views.decorators.csrf import csrf_exempt
@@ -25,12 +26,15 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^customerlist/$',csrf_exempt(views.customerList.as_view())),
     url(r'^propertylist/$',csrf_exempt(views.propertyList.as_view())),
-    url(r'^customer/$',csrf_exempt(views.customerListSecured)),
-    # url(r'^property/$',csrf_exempt(views.propertyListSecured)),
+    url(r'^customer/$',csrf_exempt(views.customerListSecured),name='customer'),
+    url(r'^property/$',csrf_exempt(views.propertyListSecured),name='property'),
 
     url(r'^session/$', csrf_exempt(views.Session.as_view())),
     url(r'^home/$', views.home),
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url('login/', auth_views.LoginView.as_view(), name='login'),
+    url('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    # url(r'^account/$', include('account.urls')),
+    # url(r'^login/$', auth_views.login, name='login'),
+    # url(r'^logout/$', auth_views.logout, name='logout'),
     # url(r'^customers/$',controllers.test),
 ]

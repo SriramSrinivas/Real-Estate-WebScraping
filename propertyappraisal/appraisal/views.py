@@ -38,13 +38,13 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from tables import CustomerTable
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import *
 from rest_framework.decorators import *
 from rest_framework.authentication import *
 import requests
-
+from django.contrib.auth.decorators import login_required
 # from Scraping import WebScraping
 # api = API()
 # from rest_framework_json_api.renderers import JsonApiRenderer
@@ -54,9 +54,29 @@ import requests
 def home(request):
  
    return render(request, 'templates/base.html')
+@login_required
 def customerListSecured(request):
     snippets=Customer.objects.all()
     return render(request,'templates/customer.html',{'snippets':snippets})
+
+@login_required
+def propertyListSecured(request):
+    es = Elasticsearch(['elasticsearch:9200'])
+    res = es.search(index="my-index222", body={"query": {"match_all": {}}},size=1000)
+    print(res)
+    print("Got %d Hits:" % res['hits']['total'])
+       
+    id=0
+    snippets=[]
+    jsonResponse=[]
+    for hit in res['hits']['hits']:
+        address="%(Address)s" % hit["_source"]
+        price="%(price)s" % hit["_source"]
+        jsonResponse.append({"id":id,"price":price,"Address":address})
+        id=id+1    
+
+    return render(request,'templates/property.html',{'snippets':jsonResponse})
+
 
 class customerList(APIView):
     renderer_classes = (JSONRenderer, )

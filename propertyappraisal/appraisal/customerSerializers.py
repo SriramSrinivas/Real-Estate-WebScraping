@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from appraisal.models import Customer
+from appraisal.models import Property
 
 from django.urls import NoReverseMatch
 class customerSerializers(serializers.Serializer):
@@ -18,3 +19,5 @@ class propertySerializers(serializers.Serializer):
     id=serializers.IntegerField(read_only=True)
     price=serializers.CharField()
     Address= serializers.CharField()
+    def create(self,validated_data):
+        return Property(**validated_data)
