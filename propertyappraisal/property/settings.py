@@ -25,7 +25,7 @@ SECRET_KEY = 'cs51k)=c)gc*o_*3lvp!40)65@!l@e9alp7t#_lh%kts^8rv7_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','137.48.184.208','faf6e2e303ad','http://localhost:9200','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','a811e217.ngrok.io','137.48.184.208','faf6e2e303ad','http://localhost:9200','127.0.0.1']
 
 if os.path.isfile('/run/secrets/elastic_cloud_auth'):
     with open('/run/secrets/elastic_cloud_auth', 'r') as f:
