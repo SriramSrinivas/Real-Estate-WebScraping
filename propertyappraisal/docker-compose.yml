@@ -34,9 +34,9 @@ services:
   webscraping:
     restart: always
     build: Scraping/.
-    command: bash -c "python /var/www/WebScraping.py" 
+    command: bash -c "python /var/www/propertyappraisal/Scraping/WebScraping.py" 
     volumes:
-      - ../propertyappraisal/Scraping/:/var/www/
+      - ../propertyappraisal/Scraping/:/var/www/propertyappraisal/Scraping/
     networks:
       - esnet
     depends_on: 
