@@ -28,9 +28,10 @@ urlpatterns = [
     url(r'^propertylist/$',csrf_exempt(views.propertyList.as_view())),
     url(r'^customer/$',csrf_exempt(views.customerListSecured),name='customer'),
     url(r'^property/$',csrf_exempt(views.propertyListSecured),name='property'),
-
+    url(r'^signup/$', csrf_exempt(views.signup), name='signup'),
     url(r'^session/$', csrf_exempt(views.Session.as_view())),
     url(r'^home/$', views.home),
+    url(r'^about/$', views.index, name='about'),
     url('login/', auth_views.LoginView.as_view(), name='login'),
     url('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # url(r'^account/$', include('account.urls')),
